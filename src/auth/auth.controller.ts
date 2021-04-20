@@ -1,6 +1,8 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/createTask.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { FindUserDto } from './dto/findUser.dto';
 import { RoleStatusValidationPipe } from './pipes/role-status-validation.pipe';
 import { UserRole } from './user-role.enum';
 import { User } from './user.entity';
@@ -17,5 +19,10 @@ export class AuthController {
     ) {
         createUserDto.role = role;
         return this.authService.signUp(createUserDto);
+    }
+
+    @Post('/signIn')
+    signIn(@Body() findUserDto: FindUserDto): Promise<{ token }> {
+        return this.authService.signIn(findUserDto);
     }
 }

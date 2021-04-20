@@ -5,7 +5,6 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { FindUserDto } from './dto/findUser.dto';
 import { RoleStatusValidationPipe } from './pipes/role-status-validation.pipe';
 import { UserRole } from './user-role.enum';
-import { User } from './user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +15,7 @@ export class AuthController {
     signUp(
         @Body() createUserDto: CreateUserDto,
         @Body('role', RoleStatusValidationPipe) role: UserRole,
-    ) {
+    ): Promise<Object> {
         createUserDto.role = role;
         return this.authService.signUp(createUserDto);
     }

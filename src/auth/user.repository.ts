@@ -6,7 +6,7 @@ import { FindUserDto } from './dto/findUser.dto';
 import { UnauthorizedException } from '@nestjs/common';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-    async signUp(createUserDto: CreateUserDto) {
+    async signUp(createUserDto: CreateUserDto):Promise<User> {
         try {
             const user = new User();
 
@@ -18,7 +18,7 @@ export class UserRepository extends Repository<User> {
             await user.save();
             return user;
         } catch (error) {
-            return { detail: error.detail };
+            throw new UnauthorizedException(error.detail)
         }
     }
 

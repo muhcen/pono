@@ -16,5 +16,5 @@ export class Product extends BaseEntity {
     description: string;
 
     @ManyToOne((type) => User, (user) => user.id)
-    user_id: string;
+    user: User;
 }

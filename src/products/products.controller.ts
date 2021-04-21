@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { Product } from './product.entity';
@@ -15,5 +15,10 @@ export class ProductsController {
         @Req() req,
     ): Promise<Product> {
         return this.productsService.createProduct(createProductDto, req.user);
+    }
+
+    @Get()
+    getAllProducts(): Promise<Product[]> {
+        return this.productsService.getAllProducts();
     }
 }

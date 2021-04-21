@@ -11,7 +11,12 @@ export class ProductsService {
         @InjectRepository(ProductRepository) private productRepository: ProductRepository,
     ) {}
 
-    createProduct(createProductDto: CreateProductDto, user: User):Promise<Product> {
+    createProduct(createProductDto: CreateProductDto, user: User): Promise<Product> {
         return this.productRepository.createProduct(createProductDto, user);
+    }
+
+    async getAllProducts(): Promise<Product[]> {
+        const Products = await this.productRepository.find();
+        return Products;
     }
 }

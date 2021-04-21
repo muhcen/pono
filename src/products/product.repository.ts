@@ -15,7 +15,7 @@ export class ProductRepository extends Repository<Product> {
             product.price = price;
             product.user = user;
             await product.save();
-            // delete product.user;
+            delete product.user;
             return product;
         } catch (error) {
             throw new NotAcceptableException(error.detail);

@@ -2,6 +2,7 @@ import { NotAcceptableException } from '@nestjs/common';
 import { User } from 'src/auth/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/createProduct.dto';
+import { FilterProductsDto } from './dto/filterProducts.dto';
 import { Product } from './product.entity';
 
 @EntityRepository(Product)

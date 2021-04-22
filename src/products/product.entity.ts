@@ -1,5 +1,15 @@
 import { User } from 'src/auth/user.entity';
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Unique,
+} from 'typeorm';
 
 @Entity()
 export class Product extends BaseEntity {

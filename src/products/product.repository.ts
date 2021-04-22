@@ -19,6 +19,7 @@ export class ProductRepository extends Repository<Product> {
             delete product.user;
             return product;
         } catch (error) {
+            console.log(error);
             throw new NotAcceptableException(error.detail);
         }
     }

@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     ParseIntPipe,
@@ -12,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateProductDto } from './dto/createProduct.dto';
+import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
@@ -39,5 +41,12 @@ export class ProductsController {
     @Get('/:id')
     getProduct(@Param('id', ParseIntPipe) id: number): Promise<Product> {
         return this.productsService.getProduct(id);
+    }
+    @Delete('/:id')
+    deleteProduct(
+        @Param('id', ParseIntPipe) id: number,
+        @Body(ValidationPipe) deleteProductDto: DeleteProductDto,
+    ): Promise<void> {
+        return this.productsService.deleteProduct(id, deleteProductDto);
     }
 }

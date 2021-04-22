@@ -1,8 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotAcceptableException,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
 import { createQueryBuilder } from 'typeorm';
 import { CreateProductDto } from './dto/createProduct.dto';
+import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
 import { Product } from './product.entity';
 import { ProductRepository } from './product.repository';
@@ -37,5 +43,24 @@ export class ProductsService {
         }
         const products = await query.getMany();
         return products;
+    }
+    async deleteProduct(id: number, deleteProductDto: DeleteProductDto): Promise<void> {
+        const product = await this.productRepository.findOne(id);
+        const { text } = deleteProductDto;
+        if (!product) {
+            throw new NotFoundException(`product with id ${id} dos not find.`);
+        }
+
+        if (text !== product.title) {
+            throw new NotAcceptableException(
+                `if you sure for delete products you must type (${product.title})`,
+            );
+        }
+
+        try {
+            await this.productRepository.delete(product);
+        } catch (error) {
+            throw new NotAcceptableException(error.detail);
+        }
     }
 }

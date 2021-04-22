@@ -5,6 +5,7 @@ import {
     Get,
     Param,
     ParseIntPipe,
+    Patch,
     Post,
     Query,
     Req,
@@ -15,6 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
+import { UpdateDto } from './dto/updateProduct.dto';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 
@@ -46,8 +48,15 @@ export class ProductsController {
     deleteProduct(
         @Param('id', ParseIntPipe) id: number,
         @Body(ValidationPipe) deleteProductDto: DeleteProductDto,
-        @Req() req
+        @Req() req,
     ): Promise<void> {
-        return this.productsService.deleteProduct(id, deleteProductDto,req.user);
+        return this.productsService.deleteProduct(id, deleteProductDto, req.user);
+    }
+    @Patch('/:id')
+    updateProduct(
+        @Param('id', ParseIntPipe) id: number,
+        @Body(ValidationPipe) updateDto: UpdateDto,
+    ): Promise<Product> {
+        return this.productsService.updateProduct(id, updateDto);
     }
 }

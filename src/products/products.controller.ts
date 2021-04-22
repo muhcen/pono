@@ -46,7 +46,8 @@ export class ProductsController {
     deleteProduct(
         @Param('id', ParseIntPipe) id: number,
         @Body(ValidationPipe) deleteProductDto: DeleteProductDto,
+        @Req() req
     ): Promise<void> {
-        return this.productsService.deleteProduct(id, deleteProductDto);
+        return this.productsService.deleteProduct(id, deleteProductDto,req.user);
     }
 }

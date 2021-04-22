@@ -25,6 +25,6 @@ export class Product extends BaseEntity {
     @Column()
     description: string;
 
-    @ManyToOne((type) => User, (user) => user.id)
+    @ManyToOne((type) => User, (user) => user.id, { eager: true })
     user: User;
 }

@@ -1,5 +1,6 @@
 import {
     BadRequestException,
+    ForbiddenException,
     Injectable,
     NotAcceptableException,
     NotFoundException,
@@ -20,6 +21,7 @@ export class ProductsService {
         if (!product) {
             throw new NotFoundException(`product with id ${id} dos not find.`);
         }
+
         return product;
     }
     constructor(
@@ -44,11 +46,14 @@ export class ProductsService {
         const products = await query.getMany();
         return products;
     }
-    async deleteProduct(id: number, deleteProductDto: DeleteProductDto): Promise<void> {
+    async deleteProduct(id: number, deleteProductDto: DeleteProductDto, user: User): Promise<void> {
         const product = await this.productRepository.findOne(id);
         const { text } = deleteProductDto;
         if (!product) {
             throw new NotFoundException(`product with id ${id} dos not find.`);
+        }
+        if (user.id !== product.user.id) {
+            throw new ForbiddenException('someone can delete product who create product');
         }
 
         if (text !== product.title) {

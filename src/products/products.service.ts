@@ -6,8 +6,8 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { User } from 'src/auth/user.entity';
-import { createQueryBuilder } from 'typeorm';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
@@ -31,8 +31,11 @@ export class ProductsService {
         return this.productRepository.createProduct(createProductDto, user);
     }
 
-    async getAllProducts(filterProductsDto: FilterProductsDto): Promise<Product[]> {
+    async getAllProducts(filterProductsDto: FilterProductsDto): Promise<Pagination<Product>> {
         const { search, price } = filterProductsDto;
+        let { page, limit }: IPaginationOptions = filterProductsDto;
+        page = page === undefined ? 1 : page;
+        limit = limit === undefined ? 1 : limit;
         const query = this.productRepository.createQueryBuilder('product');
         if (search) {
             query.andWhere('(product.title LIKE :search OR product.description LIKE :search)', {
@@ -43,7 +46,8 @@ export class ProductsService {
             query.andWhere('(product.price = :price)', { price });
         }
         const products = await query.getMany();
-        return products;
+
+        return paginate(this.productRepository, { page, limit });
     }
     async deleteProduct(id: number, deleteProductDto: DeleteProductDto, user: User): Promise<void> {
         const product = await this.productRepository.findOne(id);

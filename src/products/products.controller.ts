@@ -13,6 +13,7 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
@@ -36,7 +37,7 @@ export class ProductsController {
     @Get()
     getAllProducts(
         @Query(ValidationPipe) filterProductsDto: FilterProductsDto,
-    ): Promise<Product[]> {
+    ): Promise<Pagination<Product>> {
         return this.productsService.getAllProducts(filterProductsDto);
     }
 

@@ -35,7 +35,7 @@ export class ProductsService {
         const { search, price } = filterProductsDto;
         let { page, limit }: IPaginationOptions = filterProductsDto;
         page = page === undefined ? 1 : page;
-        limit = limit === undefined ? 1 : limit;
+        limit = limit === undefined ? 10 : limit;
         const query = this.productRepository.createQueryBuilder('product');
         if (search) {
             query.andWhere('(product.title LIKE :search OR product.description LIKE :search)', {

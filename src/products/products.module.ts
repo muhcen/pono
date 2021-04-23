@@ -1,4 +1,4 @@
-import { Module, NestModule, RequestMethod, UseGuards } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductRepository } from './product.repository';
 import { ProductsController } from './products.controller';

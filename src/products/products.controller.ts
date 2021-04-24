@@ -22,6 +22,8 @@ import { RolesGuard } from './gaurds/roles.gaurd';
 import { UpdateDto } from './dto/updateProduct.dto';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
+import { UserDecorator } from './decorator/user.decorator';
+import { User } from 'src/auth/user.entity';
 
 @Controller('products')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -32,9 +34,9 @@ export class ProductsController {
     @Roles('admin')
     createProduct(
         @Body(ValidationPipe) createProductDto: CreateProductDto,
-        @Req() req,
+        @UserDecorator() user: User,
     ): Promise<Product> {
-        return this.productsService.createProduct(createProductDto, req.user);
+        return this.productsService.createProduct(createProductDto, user);
     }
 
     @Get()
@@ -52,9 +54,9 @@ export class ProductsController {
     deleteProduct(
         @Param('id', ParseIntPipe) id: number,
         @Body(ValidationPipe) deleteProductDto: DeleteProductDto,
-        @Req() req,
+        @UserDecorator() user: User,
     ): Promise<void> {
-        return this.productsService.deleteProduct(id, deleteProductDto, req.user);
+        return this.productsService.deleteProduct(id, deleteProductDto, user);
     }
     @Patch('/:id')
     @Roles('admin')

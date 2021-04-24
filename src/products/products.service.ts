@@ -25,6 +25,7 @@ export class ProductsService {
         const product = await this.productRepository.findOne(id);
         this.checkProduct(product, id);
 
+        delete product.user;
         return product;
     }
     createProduct(createProductDto: CreateProductDto, user: User): Promise<Product> {

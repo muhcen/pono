@@ -21,7 +21,7 @@ export class JwtStrtegy extends PassportStrategy(Strategy) {
         const { email } = payload;
         const user = await this.userRepository.findOne({ email });
         if (!user) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('you connot without sign in access this route. ');
         }
 
         return user;

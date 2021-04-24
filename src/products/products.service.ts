@@ -37,6 +37,7 @@ export class ProductsService {
         page = page === undefined ? 1 : page;
         limit = limit === undefined ? 10 : limit;
         const query = this.productRepository.createQueryBuilder('product');
+        query.orderBy('product.price', 'DESC');
         if (search) {
             query.andWhere('(product.title LIKE :search OR product.description LIKE :search)', {
                 search: `%${search}%`,

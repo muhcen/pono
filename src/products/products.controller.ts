@@ -17,16 +17,19 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { DeleteProductDto } from './dto/deleteProduct.dto';
 import { FilterProductsDto } from './dto/filterProducts.dto';
+import { Roles } from './gaurds/roles.decorator';
+import { RolesGuard } from './gaurds/roles.gaurd';
 import { UpdateDto } from './dto/updateProduct.dto';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 
 @Controller('products')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
     @Post()
+    @Roles('admin')
     createProduct(
         @Body(ValidationPipe) createProductDto: CreateProductDto,
         @Req() req,
@@ -54,6 +57,7 @@ export class ProductsController {
         return this.productsService.deleteProduct(id, deleteProductDto, req.user);
     }
     @Patch('/:id')
+    @Roles('admin')
     updateProduct(
         @Param('id', ParseIntPipe) id: number,
         @Body(ValidationPipe) updateDto: UpdateDto,

@@ -9,7 +9,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username: 'postgres',
     password: 'password',
     database: 'pono',
-    entities: [User, Product, 'dist/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*.entity.ts'],
     synchronize: true,
     autoLoadEntities: true,
 };

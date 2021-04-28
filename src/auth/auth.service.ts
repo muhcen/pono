@@ -15,11 +15,12 @@ export class AuthService {
         private jwtService: JwtService,
     ) {}
 
-    async signUp(createUserDto: CreateUserDto):Promise<Object> {
+    async signUp(createUserDto: CreateUserDto): Promise<Object> {
         const user = await this.userRepository.signUp(createUserDto);
         const { email } = user;
         const payload: JwtPayload = { email };
         const token = await this.jwtService.sign(payload);
+        delete user.password;
         return { token, data: { user } };
     }
 
@@ -31,5 +32,11 @@ export class AuthService {
         const token = await this.jwtService.sign(payload);
 
         return { token };
+    }
+
+    async getAllUsers(): Promise<User[]> {
+        const users = await this.userRepository.find();
+
+        return users;
     }
 }

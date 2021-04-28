@@ -8,9 +8,7 @@ import {
     Patch,
     Post,
     Query,
-    Req,
     UseGuards,
-    ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -24,6 +22,7 @@ import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 import { UserDecorator } from './decorator/user.decorator';
 import { User } from 'src/auth/user.entity';
+import { Cron, Timeout } from '@nestjs/schedule';
 
 @Controller('products')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

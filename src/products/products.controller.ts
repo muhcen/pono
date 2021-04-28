@@ -33,16 +33,14 @@ export class ProductsController {
     @Post()
     @Roles('admin')
     createProduct(
-        @Body(ValidationPipe) createProductDto: CreateProductDto,
+        @Body() createProductDto: CreateProductDto,
         @UserDecorator() user: User,
     ): Promise<Product> {
         return this.productsService.createProduct(createProductDto, user);
     }
 
     @Get()
-    getAllProducts(
-        @Query(ValidationPipe) filterProductsDto: FilterProductsDto,
-    ): Promise<Pagination<Product>> {
+    getAllProducts(@Query() filterProductsDto: FilterProductsDto): Promise<Pagination<Product>> {
         return this.productsService.getAllProducts(filterProductsDto);
     }
 
@@ -53,7 +51,7 @@ export class ProductsController {
     @Delete('/:id')
     deleteProduct(
         @Param('id', ParseIntPipe) id: number,
-        @Body(ValidationPipe) deleteProductDto: DeleteProductDto,
+        @Body() deleteProductDto: DeleteProductDto,
         @UserDecorator() user: User,
     ): Promise<void> {
         return this.productsService.deleteProduct(id, deleteProductDto, user);
@@ -62,7 +60,7 @@ export class ProductsController {
     @Roles('admin')
     updateProduct(
         @Param('id', ParseIntPipe) id: number,
-        @Body(ValidationPipe) updateDto: UpdateDto,
+        @Body() updateDto: UpdateDto,
     ): Promise<Product> {
         return this.productsService.updateProduct(id, updateDto);
     }

@@ -7,12 +7,8 @@ export class BlogResolver {
     constructor(private blogService: BlogService) {}
 
     @Query((returns) => BlogType)
-    blog() {
-        return {
-            id: 'kf7y42h48trhi4',
-            title: 'bad man',
-            description: 'ekfkdjfejfiefijfkefje ef e efjejf oefj  f',
-        };
+    getBlog(@Args('id') id: string) {
+        return this.blogService.getBlog(id);
     }
 
     @Mutation((returns) => BlogType)
